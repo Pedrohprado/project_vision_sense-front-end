@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
+import { Glasses } from 'lucide-react';
 
 export function LoginForm({
   className,
@@ -21,7 +22,10 @@ export function LoginForm({
           <form className='p-6 md:p-8'>
             <FieldGroup>
               <div className='flex flex-col items-center gap-2 text-center'>
-                <h1 className='text-2xl font-bold'>Bem vindo de volta!</h1>
+                <h1 className='text-2xl font-bold flex items-center gap-2'>
+                  <Glasses />
+                  Vision Sense
+                </h1>
                 <p className='text-muted-foreground text-balance'>
                   Faça o login para acessar sua conta
                 </p>
@@ -55,11 +59,11 @@ export function LoginForm({
               </FieldDescription>
             </FieldGroup>
           </form>
-          <div className='bg-muted relative hidden md:block'>
+          <div className=' relative hidden md:block'>
             <img
-              src='/placeholder.svg'
+              src='vision_sense.png'
               alt='Image'
-              className='absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
+              className='absolute h-full w-full'
             />
           </div>
         </CardContent>
