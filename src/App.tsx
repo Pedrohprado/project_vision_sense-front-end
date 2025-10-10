@@ -1,12 +1,13 @@
-import { LoginForm } from './components/login-form';
+import { Route, Routes } from 'react-router';
+import LoginPage from './pages/login';
+import SingupPage from './pages/singup';
 
 const App = () => {
   return (
-    <div className='bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10'>
-      <div className='w-full max-w-sm md:max-w-4xl'>
-        <LoginForm />
-      </div>
-    </div>
+    <Routes>
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/singup' element={<SingupPage />} />
+    </Routes>
   );
 };
 

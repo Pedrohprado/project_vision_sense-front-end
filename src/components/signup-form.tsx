@@ -10,7 +10,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
 
-export function LoginForm({
+export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
@@ -21,9 +21,9 @@ export function LoginForm({
           <form className='p-6 md:p-8'>
             <FieldGroup>
               <div className='flex flex-col items-center gap-2 text-center'>
-                <h1 className='text-2xl font-bold'>Bem vindo de volta!</h1>
-                <p className='text-muted-foreground text-balance'>
-                  Faça o login para acessar sua conta
+                <h1 className='text-2xl font-bold'>Crie sua conta</h1>
+                <p className='text-muted-foreground text-sm text-balance'>
+                  Coloque seu email para criar sua conta
                 </p>
               </div>
               <Field>
@@ -34,24 +34,29 @@ export function LoginForm({
                   placeholder='m@example.com'
                   required
                 />
+                <FieldDescription>error</FieldDescription>
               </Field>
               <Field>
-                <div className='flex items-center'>
-                  <FieldLabel htmlFor='password'>Senha</FieldLabel>
-                  <a
-                    href='#'
-                    className='ml-auto text-sm underline-offset-2 hover:underline'
-                  >
-                    Esqueceu sua senha?
-                  </a>
-                </div>
-                <Input id='password' type='password' required />
+                <Field className='grid grid-cols-2 gap-4'>
+                  <Field>
+                    <FieldLabel htmlFor='password'>Senha</FieldLabel>
+                    <Input id='password' type='password' required />
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor='confirm-password'>
+                      Confirme a sua senha
+                    </FieldLabel>
+                    <Input id='confirm-password' type='password' required />
+                  </Field>
+                </Field>
+                <FieldDescription>error</FieldDescription>
               </Field>
               <Field>
-                <Button type='submit'>Login</Button>
+                <Button type='submit'>Criar conta</Button>
               </Field>
+
               <FieldDescription className='text-center'>
-                Ainda não tem uma conta? <Link to={'/singup'}>Cadastre-se</Link>
+                Você já tem uma conta? <Link to={'/login'}>Login</Link>
               </FieldDescription>
             </FieldGroup>
           </form>
@@ -65,7 +70,7 @@ export function LoginForm({
         </CardContent>
       </Card>
       <FieldDescription className='px-6 text-center'>
-        Quando clicar em continuar, você está aceitando{' '}
+        Ao clicar em continuar, você está aceitando{' '}
         <a href='#'>Termos de serviço</a> e{' '}
         <a href='#'>Politicas de privacidade</a>.
       </FieldDescription>
