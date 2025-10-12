@@ -9,17 +9,42 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
-import { Glasses } from 'lucide-react';
+import { Glasses, Loader2Icon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema, type LoginSchemaProp } from '@/zod/login-schema';
+import { useMutation } from '@tanstack/react-query';
+import { login } from '@/api/login';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const mutation = useMutation({
+    mutationFn: (data: LoginSchemaProp) => {
+      return login(data);
+    },
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchemaProp>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  async function handleSendInformations(data: LoginSchemaProp) {
+    await mutation.mutateAsync(data);
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className='overflow-hidden p-0'>
         <CardContent className='grid p-0 md:grid-cols-2'>
-          <form className='p-6 md:p-8'>
+          <form
+            className='p-6 md:p-8'
+            onSubmit={handleSubmit(handleSendInformations)}
+          >
             <FieldGroup>
               <div className='flex flex-col items-center gap-2 text-center'>
                 <h1 className='text-2xl font-bold flex items-center gap-2'>
@@ -32,12 +57,12 @@ export function LoginForm({
               </div>
               <Field>
                 <FieldLabel htmlFor='email'>Email</FieldLabel>
-                <Input
-                  id='email'
-                  type='email'
-                  placeholder='m@example.com'
-                  required
-                />
+                <Input {...register('email')} placeholder='m@example.com' />
+                {errors.email?.message && (
+                  <FieldDescription className='text-red-900'>
+                    você precisa inserir um email válido.
+                  </FieldDescription>
+                )}
               </Field>
               <Field>
                 <div className='flex items-center'>
@@ -49,10 +74,33 @@ export function LoginForm({
                     Esqueceu sua senha?
                   </a>
                 </div>
-                <Input id='password' type='password' required />
+                <Input type='password' {...register('password')} />
+                {errors.password?.message && (
+                  <FieldDescription className='text-red-900'>
+                    você precisa inserir uma senha.
+                  </FieldDescription>
+                )}
               </Field>
               <Field>
-                <Button type='submit'>Login</Button>
+                <Button
+                  type='submit'
+                  disabled={mutation.isPending}
+                  className='flex items-center justify-center gap-3'
+                >
+                  {mutation.isPending ? (
+                    <>
+                      Login
+                      <Loader2Icon className=' size-3 animate-spin' />
+                    </>
+                  ) : (
+                    'Login'
+                  )}
+                </Button>
+                {mutation.error && (
+                  <FieldDescription className='text-red-700 w-full text-center'>
+                    {mutation.error.message}
+                  </FieldDescription>
+                )}
               </Field>
               <FieldDescription className='text-center'>
                 Ainda não tem uma conta? <Link to={'/singup'}>Cadastre-se</Link>
@@ -69,7 +117,7 @@ export function LoginForm({
         </CardContent>
       </Card>
       <FieldDescription className='px-6 text-center'>
-        Quando clicar em continuar, você está aceitando{' '}
+        Ao clicar em continuar, você está aceitando{' '}
         <a href='#'>Termos de serviço</a> e{' '}
         <a href='#'>Politicas de privacidade</a>.
       </FieldDescription>
