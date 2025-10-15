@@ -12,7 +12,7 @@ import { Link } from 'react-router';
 import { Glasses, Loader2Icon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, type LoginSchemaProp } from '@/zod/login-schema';
+import { loginSchema, type LoginSchemaProps } from '@/zod/login-schema';
 import { useMutation } from '@tanstack/react-query';
 import { login } from '@/api/login';
 
@@ -21,7 +21,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<'div'>) {
   const mutation = useMutation({
-    mutationFn: (data: LoginSchemaProp) => {
+    mutationFn: (data: LoginSchemaProps) => {
       return login(data);
     },
   });
@@ -29,11 +29,11 @@ export function LoginForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginSchemaProp>({
+  } = useForm<LoginSchemaProps>({
     resolver: zodResolver(loginSchema),
   });
 
-  async function handleSendInformations(data: LoginSchemaProp) {
+  async function handleSendInformations(data: LoginSchemaProps) {
     await mutation.mutateAsync(data);
   }
 

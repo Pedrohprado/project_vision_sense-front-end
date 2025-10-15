@@ -13,15 +13,18 @@ import {
 import { Glasses } from 'lucide-react';
 import { Link } from 'react-router';
 
-const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
-};
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [userConfig, setUserConfig] = React.useState<{
+    email: string;
+    name: string;
+  } | null>(null);
+
+  React.useEffect(() => {
+    const email = localStorage.getItem('email');
+    const name = localStorage.getItem('name');
+
+    if (email && name) setUserConfig({ email, name });
+  }, []);
   return (
     <Sidebar collapsible='offcanvas' {...props}>
       <SidebarHeader>
@@ -41,7 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent></SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userConfig} />
       </SidebarFooter>
     </Sidebar>
   );
