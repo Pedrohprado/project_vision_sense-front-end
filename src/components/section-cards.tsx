@@ -1,3 +1,4 @@
+import type { ReadingPorcentProps } from '@/api/readings';
 import {
   Card,
   CardDescription,
@@ -5,7 +6,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-export function SectionCards() {
+export function SectionCards({
+  dataPorcent,
+}: {
+  dataPorcent: ReadingPorcentProps | null;
+}) {
   return (
     <div className='*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card gap-4 grid w-full px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3'>
       <Card className='@container/card w-full text-green-800'>
@@ -17,7 +22,7 @@ export function SectionCards() {
             </span>
           </CardDescription>
           <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
-            20%
+            {dataPorcent?.porcentLow}%
           </CardTitle>
         </CardHeader>
       </Card>
@@ -30,7 +35,7 @@ export function SectionCards() {
             </span>
           </CardDescription>
           <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
-            50%
+            {dataPorcent?.porcentMedium}%
           </CardTitle>
         </CardHeader>
       </Card>
@@ -41,7 +46,7 @@ export function SectionCards() {
             <span className=' border-b border-red-700 text-red-900'>alto</span>
           </CardDescription>
           <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
-            10%
+            {dataPorcent?.porcentHigh}%
           </CardTitle>
         </CardHeader>
       </Card>

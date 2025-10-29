@@ -7,10 +7,15 @@ export interface ReadingsType {
   deviceId: string;
   createdAt: Date;
 }
+
+export interface ReadingPorcentProps {
+  porcentLow: number;
+  porcentMedium: number;
+  porcentHigh: number;
+}
 export async function getReadingsBydeviceId(deviceId: string) {
   try {
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIzNWFmNGRhLWZiMDgtNDA0OS04MDA5LThhN2Y0M2E0ZjRhZSIsImVtYWlsIjoidGVzdGVAdGVzdGUuY29tIiwiaWF0IjoxNzYwMTA4MDUyLCJleHAiOjE3NjA5NzIwNTJ9.A9dSyzkUnMnzDdJhHAVdeuMhgF0RDXGykOMj15k4vpc';
+    const token = localStorage.getItem('token');
     const response = await fetch(`${URL_API_BASE}/readings/${deviceId}`, {
       method: 'GET',
       headers: {

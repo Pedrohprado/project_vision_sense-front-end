@@ -8,7 +8,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Glasses, Loader2Icon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,9 +20,11 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const navigate = useNavigate();
   const mutation = useMutation({
-    mutationFn: (data: LoginSchemaProps) => {
-      return login(data);
+    mutationFn: (data: LoginSchemaProps) => login(data),
+    onSuccess: async () => {
+      navigate('/');
     },
   });
   const {

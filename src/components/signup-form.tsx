@@ -25,6 +25,14 @@ export function SignupForm({
     mutationFn: (data: SignupSchemaProps) => {
       return signup(data);
     },
+    onSuccess: async () => {
+      toast.success('Usuário criado com sucesso!');
+      navigate('/');
+    },
+    onError: async (error) => {
+      const err = error as { message?: string };
+      toast.error(err.message ?? 'Erro ao fazer login!');
+    },
   });
 
   const {
@@ -45,12 +53,7 @@ export function SignupForm({
       return;
     }
 
-    const status = await mutationSignup.mutateAsync(data);
-
-    if (status) {
-      toast.success('Usuário criado com sucesso!');
-      navigate('/');
-    }
+    await mutationSignup.mutateAsync(data);
   }
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>

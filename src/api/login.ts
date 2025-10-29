@@ -22,6 +22,10 @@ export async function login(userLogin: { email: string; password: string }) {
     if (!response.ok) {
       throw new Error(data?.message || 'Erro desconhecido no login');
     }
+
+    localStorage.setItem('email', data.email);
+    localStorage.setItem('name', data.name);
+    localStorage.setItem('token', data.token);
     return data;
   } catch (error) {
     console.error(error);
